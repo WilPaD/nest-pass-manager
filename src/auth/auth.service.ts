@@ -38,9 +38,7 @@ export class AuthService {
 
       // Aquí estoy utilizando el user resource dto
       return {
-        user: plainToInstance(UserResource, user, {
-          excludeExtraneousValues: true,
-        }),
+        message: 'User created successfully',
         token: this.genJwtToken({
           email: user.email,
           id: user.id,
