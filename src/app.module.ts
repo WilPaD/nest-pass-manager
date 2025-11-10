@@ -5,6 +5,7 @@ import { CoreModule } from './core/core.module';
 import { ConfigModule } from '@nestjs/config';
 import { EnvConfig, JoiValidationSchema } from './core/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: process.env.DB_SYNC === 'true',
     }),
     CoreModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
