@@ -10,9 +10,9 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { DbError } from 'src/core/interfaces';
 import * as bcrypt from 'bcrypt';
-import { plainToInstance } from 'class-transformer';
+// import { plainToInstance } from 'class-transformer';
 import { CreateUserDto, LoginUserDto } from './dto';
-import { UserResource } from './resources';
+// import { UserResource } from './resources';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 
@@ -73,9 +73,10 @@ export class AuthService {
     }
 
     return {
-      user: plainToInstance(UserResource, user, {
-        excludeExtraneousValues: true,
-      }),
+      // user: plainToInstance(UserResource, user, {
+      //   excludeExtraneousValues: true,
+      // }),
+      message: 'Login successful',
       token: this.genJwtToken({
         email: user.email,
         id: user.id,
