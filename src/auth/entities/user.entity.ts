@@ -25,8 +25,11 @@ export class User {
   @Column('text', { unique: true, nullable: true })
   phone: string;
 
-  @Column('text', { nullable: true }) // Esto por si se quiere usar OTP
-  password: string;
+  // @Column('text', { nullable: true }) // Esto por si se quiere usar OTP
+  // password: string;
+
+  @Column('text', { nullable: true })
+  masterPassword: string;
 
   @Column('date', { nullable: true })
   verifiedAt: Date;
