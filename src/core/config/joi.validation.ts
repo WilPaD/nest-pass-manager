@@ -15,7 +15,7 @@ export const JoiValidationSchema = Joi.object({
   DB_HOST: Joi.string().default('localhost'),
   DB_PORT: Joi.number().port().default(5432),
   DB_NAME: Joi.string().required(),
-  DB_USERNAME: Joi.string().required().default('root'),
+  DB_USER: Joi.string().required().default('root'),
   DB_PASSWORD: Joi.string().empty(''),
   DB_SYNC: Joi.string().valid('true', 'false').default('false'),
 

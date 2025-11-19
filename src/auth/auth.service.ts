@@ -6,12 +6,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { DbError } from 'src/core/interfaces';
 import * as bcrypt from 'bcrypt';
 // import { plainToInstance } from 'class-transformer';
-import { CreateUserDto, LoginUserDto } from './dto';
+import { LoginUserDto } from './dto';
+import { CreateUserDto } from '../user/dto';
 // import { UserResource } from './resources';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
