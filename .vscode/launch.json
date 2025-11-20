@@ -6,7 +6,7 @@
       "request": "launch",
       "name": "Iniciar y depurar",
       "runtimeExecutable": "bun",
-      "runtimeArgs": ["run", "start:debug"],
+      "runtimeArgs": ["start:debug"],
       "console": "integratedTerminal",
       "restart": true,
       "autoAttachChildProcesses": true,
