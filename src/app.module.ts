@@ -7,6 +7,9 @@ import { EnvConfig, JoiValidationSchema } from './core/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { VaultsModule } from './vaults/vaults.module';
+import { VaultItemsModule } from './vault-items/vault-items.module';
+import { VaultsModule } from './vaults/vaults.module';
 
 @Module({
   imports: [
@@ -28,6 +31,8 @@ import { UserModule } from './user/user.module';
     CoreModule,
     AuthModule,
     UserModule,
+    VaultsModule,
+    VaultItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

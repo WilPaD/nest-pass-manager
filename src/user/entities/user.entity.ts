@@ -1,3 +1,4 @@
+import { Vault } from 'src/vaults/entities/vault.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,6 +7,7 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'users' })
@@ -45,6 +47,9 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @OneToMany(() => Vault, (vault) => vault.user)
+  vaults: Vault[];
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {
