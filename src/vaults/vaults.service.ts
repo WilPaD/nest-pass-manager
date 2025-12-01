@@ -1,4 +1,4 @@
-  import {
+import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
@@ -23,10 +23,15 @@ export class VaultsService {
     private readonly vaultsRepository: Repository<Vault>,
   ) {}
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto, user: User) {
     const { limit = 10, offset = 0 } = paginationDto;
 
     const vaults: Vault[] = await this.vaultsRepository.find({
+      where: {
+        user: {
+          id: user.id,
+        },
+      },
       take: limit,
       skip: offset,
       relations: {
@@ -40,12 +45,17 @@ export class VaultsService {
     });
   }
 
-  async findOne(term: string) {
+  async findOne(term: string, user: User) {
     let vault: Vault | null;
 
     if (isUUID(term)) {
       vault = await this.vaultsRepository.findOne({
-        where: { id: term },
+        where: {
+          id: term,
+          user: {
+            id: user.id,
+          },
+        },
         relations: {
           user: true,
         },
@@ -53,8 +63,9 @@ export class VaultsService {
     } else {
       const queryBuilder = this.vaultsRepository.createQueryBuilder('vault');
       vault = await queryBuilder
-        .where('UPPER(vault.name) =:name', {
+        .where('UPPER(vault.name) =:name AND vault.userId = :userId', {
           name: term.toUpperCase(),
+          userId: user.id,
         })
         .leftJoinAndSelect('vault.user', 'user')
         .getOne();

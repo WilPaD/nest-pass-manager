@@ -11,13 +11,13 @@ export class VaultsController {
   constructor(private readonly vaultsService: VaultsService) {}
 
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.vaultsService.findAll(paginationDto);
+  findAll(@Query() paginationDto: PaginationDto, @GetUser() user: User) {
+    return this.vaultsService.findAll(paginationDto, user);
   }
 
   @Get(':term')
-  findOne(@Param('term') term: string) {
-    return this.vaultsService.findOne(term);
+  findOne(@Param('term') term: string, @GetUser() user: User) {
+    return this.vaultsService.findOne(term, user);
   }
 
   @Post()
