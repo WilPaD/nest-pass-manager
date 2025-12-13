@@ -33,7 +33,7 @@ export class AuthService {
       const { password, ...userData } = createUserDto;
       const user = this.usersRepository.create({
         ...userData,
-        masterPassword: bcrypt.hashSync(password, 12),
+        password: bcrypt.hashSync(password, 12),
       });
       await this.usersRepository.save(user);
 
@@ -58,7 +58,7 @@ export class AuthService {
       select: {
         id: true,
         email: true,
-        masterPassword: true,
+        password: true,
         isActive: true,
       },
     });
@@ -67,7 +67,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const isPasswordValid = bcrypt.compareSync(password, user.masterPassword);
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');

@@ -1,3 +1,5 @@
+import { VaultItem } from 'src/vault-items/entities/vault-item.entity';
+import { Vault } from 'src/vaults/entities/vault.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,6 +8,7 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'users' })
@@ -25,11 +28,11 @@ export class User {
   @Column('text', { unique: true, nullable: true })
   phone: string;
 
-  // @Column('text', { nullable: true }) // Esto por si se quiere usar OTP
-  // password: string;
+  @Column('text', { nullable: true }) // Esto por si se quiere usar OTP
+  password: string;
 
-  @Column('text', { nullable: true })
-  masterPassword: string;
+  // @Column('text', { nullable: true })
+  // masterPassword: string;
 
   @Column('date', { nullable: true })
   verifiedAt: Date;
@@ -45,6 +48,12 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @OneToMany(() => Vault, (vault) => vault.user)
+  vaults: Vault[];
+
+  @OneToMany(() => VaultItem, (vaultItem) => vaultItem.user)
+  vaultItems: VaultItem[];
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {
