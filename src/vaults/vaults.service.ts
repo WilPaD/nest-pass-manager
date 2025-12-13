@@ -5,7 +5,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateVaultDto } from './dto';
+import { CreateVaultDto, UpdateVaultDto } from './dto';
 import { User } from '../user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vault } from './entities/vault.entity';
@@ -90,6 +90,25 @@ export class VaultsService {
       await this.vaultsRepository.save(vault);
 
       return `Vault ${vault.name} created successfully`;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+  }
+
+  async update(id: string, updateVaultDto: UpdateVaultDto, user: User) {
+    const vault = await this.vaultsRepository.preload({
+      id,
+      ...updateVaultDto,
+      user,
+    });
+
+    if (!vault) {
+      throw new NotFoundException(`Vault with id "${id}" not found`);
+    }
+
+    try {
+      await this.vaultsRepository.save(vault);
+      return `Vault with id "${id}" updated successfully`;
     } catch (error) {
       this.handleDBExceptions(error);
     }

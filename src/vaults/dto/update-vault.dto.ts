@@ -1,4 +1,11 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateVaultDto } from './create-vault.dto';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
-export class UpdateVaultDto extends PartialType(CreateVaultDto) {}
+export class UpdateVaultDto {
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isShared?: boolean;
+}

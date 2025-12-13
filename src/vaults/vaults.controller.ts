@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Post, Param, Query, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Param,
+  Query,
+  Delete,
+  Patch,
+} from '@nestjs/common';
 import { VaultsService } from './vaults.service';
 import { Auth, GetUser } from 'src/auth/decorators';
-import { CreateVaultDto } from './dto';
+import { CreateVaultDto, UpdateVaultDto } from './dto';
 import { User } from 'src/user/entities/user.entity';
 import { PaginationDto } from 'src/core/dto';
 
@@ -23,6 +32,15 @@ export class VaultsController {
   @Post()
   create(@Body() createVaultDto: CreateVaultDto, @GetUser() user: User) {
     return this.vaultsService.create(createVaultDto, user);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateVaultDto: UpdateVaultDto,
+    @GetUser() user: User,
+  ) {
+    return this.vaultsService.update(id, updateVaultDto, user);
   }
 
   @Delete(':id')
