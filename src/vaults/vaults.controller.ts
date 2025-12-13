@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param, Query, Delete } from '@nestjs/common';
 import { VaultsService } from './vaults.service';
 import { Auth, GetUser } from 'src/auth/decorators';
 import { CreateVaultDto } from './dto';
@@ -23,5 +23,10 @@ export class VaultsController {
   @Post()
   create(@Body() createVaultDto: CreateVaultDto, @GetUser() user: User) {
     return this.vaultsService.create(createVaultDto, user);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string, @GetUser() user: User) {
+    return this.vaultsService.delete(id, user);
   }
 }

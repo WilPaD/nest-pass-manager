@@ -95,6 +95,47 @@ export class VaultsService {
     }
   }
 
+  async delete(id: string, user: User) {
+    // First, find the vault with its items
+    const vault = await this.vaultsRepository.findOne({
+      where: {
+        id,
+        user: {
+          id: user.id,
+        },
+      },
+      relations: {
+        items: true,
+      },
+    });
+
+    if (!vault) {
+      throw new NotFoundException(`Vault with id "${id}" not found`);
+    }
+
+    // Remove vault relation from items
+    if (vault.items && vault.items.length > 0) {
+      for (const item of vault.items) {
+        item.vault = null;
+      }
+      await this.vaultsRepository.manager.save(vault.items);
+    }
+
+    // Now delete the vault
+    const result = await this.vaultsRepository.delete({
+      id,
+      user: {
+        id: user.id,
+      },
+    });
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Vault with id "${id}" not found`);
+    }
+
+    return `Vault with id "${id}" deleted successfully`;
+  }
+
   private handleDBExceptions(error: any) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (error.code === '23505') throw new BadRequestException(error.detail);
